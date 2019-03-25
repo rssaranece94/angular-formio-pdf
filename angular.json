@@ -25,7 +25,10 @@
             "styles": [
               "src/styles.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "./node_modules/pdfmake/build/pdfmake.min.js",
+              "./node_modules/pdfmake/build/vfs_fonts.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
@@ -130,7 +133,42 @@
           }
         }
       }
+    },
+    "angular-formio-pdf": {
+      "root": "projects/angular-formio-pdf",
+      "sourceRoot": "projects/angular-formio-pdf/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/angular-formio-pdf/tsconfig.lib.json",
+            "project": "projects/angular-formio-pdf/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/angular-formio-pdf/src/test.ts",
+            "tsConfig": "projects/angular-formio-pdf/tsconfig.spec.json",
+            "karmaConfig": "projects/angular-formio-pdf/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/angular-formio-pdf/tsconfig.lib.json",
+              "projects/angular-formio-pdf/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
-  "defaultProject": "libraries"
+  "defaultProject": "angular-formio-pdf"
 }

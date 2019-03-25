@@ -1,0 +1,8 @@
+{
+  "name": "angular-formio-pdf",
+  "version": "0.0.4",
+  "peerDependencies": {
+    "moment": "^2.24.0",
+    "pdfmake": "^0.1.54"
+  }
+}
