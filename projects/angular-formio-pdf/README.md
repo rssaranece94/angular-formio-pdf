@@ -6,11 +6,11 @@ It will supports angular 4+.
 
 Run `npm install angular-formio-pdf pdfmake moment --save`.
 
-> Note: Angular Formio Pdf uses `Moment` for date conversions and `Pdfmake` to generate pdf view. 
+> Note: Angular Formio Pdf uses `Moment` for date conversions and `Pdfmake` to generate pdf view.
 
 ### Usage
 
-Import it in respective module. 
+Import it in respective module.
 
 ```
 import { BrowserModule } from '@angular/platform-browser';
@@ -35,11 +35,13 @@ export class AppModule { }
 In `app.compoment.html`
 
 ```
-<angular-formio-pdf *ngIf="submission" [component]="component" [submission]="submission" [pdf]="pdfconfig">
+<angular-formio-pdf *ngIf="submission" [component]="component" [submission]="submission" [pdf]="pdfconfig" (onRenderBlob)="onblob($event)" (onRenderBase64)="onbase64($event)" (onRenderBuffer)="onbuffer($event)">
 </angular-formio-pdf>
 ```
 
-In `app.compoment.ts` form-builder component input sample below and submission(form submited values) data input and pdf configuration (your own customization of [pdfmake](http://pdfmake.org/). Most imporant you should leave the content in pdf configuration empty `content: []`). Try sample code below.
+In `app.compoment.ts` form-builder component input sample below and submission(form submited values) data input and pdf configuration (your own customization of [pdfmake](http://pdfmake.org/). Most imporant you should leave the content in pdf configuration empty `content: []`).
+
+Outputs are enabled as Buffer, Blob and Base64. Try sample code below.
 
 ```
 import { Component } from '@angular/core';
@@ -168,7 +170,7 @@ export class AppComponent {
     this.pdfconfig = {
         content: [],                        // should always be empty array
         ...                                 // you own customization for pdfmake
-    };   
+    };
   }
 }
 ```
@@ -176,7 +178,6 @@ export class AppComponent {
 ## Demo
 
 [Angular FormIO PDF](https://stackblitz.com/edit/angular-formio-pdf)
-
 
 ## License
 

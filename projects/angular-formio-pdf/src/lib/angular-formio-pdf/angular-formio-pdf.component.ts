@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 declare var pdfMake: any;
 // import * as moment from 'moment';
 import * as momentImported from 'moment';
@@ -15,6 +15,9 @@ export class AngularFormioPdfComponent implements OnInit {
   @Input() component;
   @Input() submission;
   @Input() pdf;
+  @Output() onRenderBase64?= new EventEmitter();
+  @Output() onRenderBuffer?= new EventEmitter();
+  @Output() onRenderBlob?= new EventEmitter();
   private simplifiedDate;
   private pdfconfig = {
     footer: function (currentPage: any, pageCount: any) {
@@ -88,6 +91,16 @@ export class AngularFormioPdfComponent implements OnInit {
       const iframe = this.createiframe();
       iframe.src = dataUrl;
       targetElement.appendChild(iframe);
+    });
+    pdfDocGenerator.getBase64((data) => {
+      // alert(data);
+      this.onRenderBase64.emit(data);
+    });
+    pdfDocGenerator.getBuffer((buffer) => {
+      this.onRenderBuffer.emit(buffer);
+    });
+    pdfDocGenerator.getBlob((blob) => {
+      this.onRenderBlob.emit(blob);
     });
   }
   createiframe() {

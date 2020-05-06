@@ -1541,6 +1541,14 @@ export class AppComponent {
     }
   };
 
-
+  onblob(data) {
+    console.log('onblob', data);
+  }
+  onbase64(data) {
+    console.log('onbase64', data);
+  }
+  onbuffer(data) {
+    console.log('onbuffer', data);
+  }
 
 }
