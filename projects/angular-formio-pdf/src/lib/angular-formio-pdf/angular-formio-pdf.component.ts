@@ -246,6 +246,8 @@ export class AngularFormioPdfComponent implements OnInit {
             image: false,
             hidelabel: true,
             label: k.label,
+            style: k.style,
+            margin: k.margin,
             input: k.input,
             component: k.components && k.components.length ? this.getComponent(k.components) : undefined
           };
@@ -362,10 +364,9 @@ export class AngularFormioPdfComponent implements OnInit {
               style: 'tableHeader'
             });
           } else {
-            arr.push({
-              text: k.value,
-              style: 'para'
-            });
+            const styles = k.style ? k.style : {};
+            let textWithStyles = { text: k.value, style: 'para', ...styles };
+            arr.push(textWithStyles);
           }
         }
         if (k.component && k.component.length) {

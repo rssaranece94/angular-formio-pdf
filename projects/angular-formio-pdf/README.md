@@ -175,6 +175,28 @@ export class AppComponent {
 }
 ```
 
+Html styling suppotred for component type `htmlelement`. Styles which are supported for PDFMake text are supported. Some style example below.
+
+```
+{
+  label: 'HTML',
+  content: 'This is sub title',
+  style: {
+    bold: true | false,
+    margin: [0, 0, 0, 0], // positions [left, top, right, bottom]
+    lineHeight: 1.3,
+    fontSize: 14,
+    color: '#000', // name or Hex codes
+    alignment: 'center | left | right'
+  },
+  type: 'htmlelement',
+  input: false,
+  key: 'html',
+  .........
+  .....
+}
+```
+
 ## Demo
 
 [Angular FormIO PDF](https://stackblitz.com/edit/angular-formio-pdf)
