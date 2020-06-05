@@ -8,9 +8,8 @@ describe('AngularFormioPdfComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AngularFormioPdfComponent ]
-    })
-    .compileComponents();
+      declarations: [AngularFormioPdfComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

@@ -4,26 +4,22 @@ declare var pdfMake: any;
 import * as momentImported from 'moment';
 const moment = momentImported;
 
-
 @Component({
   selector: 'angular-formio-pdf',
   templateUrl: './angular-formio-pdf.component.html',
   styleUrls: ['./angular-formio-pdf.component.css']
 })
 export class AngularFormioPdfComponent implements OnInit {
-
   @Input() component;
   @Input() submission;
   @Input() pdf;
-  @Output() onRenderBase64?= new EventEmitter();
-  @Output() onRenderBuffer?= new EventEmitter();
-  @Output() onRenderBlob?= new EventEmitter();
+  @Output() onRenderBase64? = new EventEmitter();
+  @Output() onRenderBuffer? = new EventEmitter();
+  @Output() onRenderBlob? = new EventEmitter();
   private simplifiedDate;
   private pdfconfig = {
     footer: function (currentPage: any, pageCount: any) {
-      return [
-        { text: currentPage.toString() + ' of ' + pageCount, alignment: 'right', margin: [0, 40, 20, 15] },
-      ];
+      return [{ text: currentPage.toString() + ' of ' + pageCount, alignment: 'right', margin: [0, 40, 20, 15] }];
     },
     pageSize: 'A4',
     pageOrientation: 'portrait',
@@ -70,15 +66,15 @@ export class AngularFormioPdfComponent implements OnInit {
     defaultStyle: {
       columnGap: 20
     }
-  }
-  constructor() { }
+  };
+  constructor() {}
 
   ngOnInit() {
-    this.pdf = { ...this.pdfconfig, ...this.pdf }
-    this.simplifiedDate = this.component.map(v => {
+    this.pdf = { ...this.pdfconfig, ...this.pdf };
+    this.simplifiedDate = this.component.map((v) => {
       return this.getSimplifiedLayout(v);
     });
-    this.simplifiedDate.map(v => {
+    this.simplifiedDate.map((v) => {
       this.getSimplifiedPdfLayout(v);
     });
     this.generatepdf();
@@ -121,50 +117,50 @@ export class AngularFormioPdfComponent implements OnInit {
       if (data.type === 'panel') {
         return {
           type: data.type,
-          value: (this.submission[data.key]) ? this.submission[data.key] : '',
+          value: this.submission[data.key] ? this.submission[data.key] : '',
           key: data.key,
           hidelabel: false,
           label: data.title,
           input: data.input,
           component: this.getComponent(data.components)
-        }
+        };
       } else {
         return {
           type: data.type,
-          value: (this.submission[data.key]) ? this.submission[data.key] : '',
+          value: this.submission[data.key] ? this.submission[data.key] : '',
           key: data.key,
           hidelabel: data.hideLabel,
           label: data.label,
           input: data.input,
           component: this.getComponent(data.components)
-        }
+        };
       }
     } else if (data.type === 'table') {
       return {
         type: data.type,
-        value: (this.submission[data.key]) ? this.submission[data.key] : '',
+        value: this.submission[data.key] ? this.submission[data.key] : '',
         key: data.key,
         hidelabel: data.hideLabel,
         label: data.label,
         input: data.input,
-        component: data.rows.map(k => {
-          return k.map(c => {
-            return this.getComponent(c.components)
-          })
+        component: data.rows.map((k) => {
+          return k.map((c) => {
+            return this.getComponent(c.components);
+          });
         })
-      }
+      };
     } else if (data.input) {
       let out = {
         type: data.type,
-        value: (this.submission[data.key]) ? this.submission[data.key] : '',
+        value: this.submission[data.key] ? this.submission[data.key] : '',
         key: data.key,
         hidelabel: data.hideLabel,
         label: data.label,
         input: data.input,
-        component: (data.components && data.components.length) ? this.getComponent(data.components) : undefined
-      }
+        component: data.components && data.components.length ? this.getComponent(data.components) : undefined
+      };
       if (data.type === 'datetime') {
-        out.value = (this.submission[data.key]) ? moment(this.submission[data.key]).format('DD-MM-YYYY') : '';
+        out.value = this.submission[data.key] ? moment(this.submission[data.key]).format('DD-MM-YYYY') : '';
       } else if (data.key === 'submit') {
         out.value = '';
         out.hidelabel = true;
@@ -175,58 +171,58 @@ export class AngularFormioPdfComponent implements OnInit {
   getLayoutColumns(v) {
     const obj = {
       type: v.type,
-      value: (this.submission[v.key]) ? this.submission[v.key] : '',
+      value: this.submission[v.key] ? this.submission[v.key] : '',
       key: v.key,
       label: v.label,
-      component: v.columns.map(x => {
+      component: v.columns.map((x) => {
         if (x.type === 'column') {
           return {
             type: x.type,
-            value: (this.submission[x.key]) ? this.submission[x.key] : '',
+            value: this.submission[x.key] ? this.submission[x.key] : '',
             key: x.key,
             hidelabel: x.hideLabel,
             label: x.label,
             input: false,
-            component: (x.components && x.components.length) ? this.getComponent(x.components) : undefined
-          }
+            component: x.components && x.components.length ? this.getComponent(x.components) : undefined
+          };
         } else {
           return v.type;
         }
       })
-    }
+    };
     obj.component = [].concat.apply([], obj.component);
     return obj;
   }
   getComponent(data) {
-    return data.map(k => {
+    return data.map((k) => {
       if (k.input && k.type !== 'button' && k.key !== 'submit') {
         if (k.type === 'signature' && this.submission[k.key] !== '') {
           return {
             type: k.type,
-            value: (this.submission[k.key]) ? this.submission[k.key] : '',
+            value: this.submission[k.key] ? this.submission[k.key] : '',
             key: k.key,
             image: true,
             hidelabel: true,
             label: k.label,
             input: k.input,
-            component: (k.components && k.components.length) ? this.getComponent(k.components) : undefined
-          }
+            component: k.components && k.components.length ? this.getComponent(k.components) : undefined
+          };
         } else {
           let out = {
             type: k.type,
-            value: (this.submission[k.key]) ? this.submission[k.key] : '',
+            value: this.submission[k.key] ? this.submission[k.key] : '',
             key: k.key,
             image: false,
             hidelabel: k.hideLabel,
             label: k.label,
             input: k.input,
-            component: (k.components && k.components.length) ? this.getComponent(k.components) : undefined
-          }
+            component: k.components && k.components.length ? this.getComponent(k.components) : undefined
+          };
           if (k.type === 'checkbox' || k.type === 'radio') {
             out.hidelabel = true;
           }
           if (k.type === 'datetime') {
-            out.value = (this.submission[k.key]) ? moment(this.submission[k.key]).format('DD-MM-YYYY') : '';
+            out.value = this.submission[k.key] ? moment(this.submission[k.key]).format('DD-MM-YYYY') : '';
           }
           return out;
         }
@@ -234,14 +230,14 @@ export class AngularFormioPdfComponent implements OnInit {
         if (k.content.includes('<img src=')) {
           return {
             type: k.type,
-            value: k.content.replace('<img src=\"', '').replace('\" alt=\"\">', '').replace('<br>', ''),
+            value: k.content.replace('<img src="', '').replace('" alt="">', '').replace('<br>', ''),
             key: k.key,
             hidelabel: true,
             image: true,
             label: k.label,
             input: k.input,
-            component: (k.components && k.components.length) ? this.getComponent(k.components) : undefined
-          }
+            component: k.components && k.components.length ? this.getComponent(k.components) : undefined
+          };
         } else {
           return {
             type: k.type,
@@ -251,19 +247,17 @@ export class AngularFormioPdfComponent implements OnInit {
             hidelabel: true,
             label: k.label,
             input: k.input,
-            component: (k.components && k.components.length) ? this.getComponent(k.components) : undefined
-          }
+            component: k.components && k.components.length ? this.getComponent(k.components) : undefined
+          };
         }
       } else {
-        return (!k.input) ? this.getSimplifiedLayout(k) : k.type;
+        return !k.input ? this.getSimplifiedLayout(k) : k.type;
       }
-    })
+    });
   }
-
 
   getSimplifiedPdfLayout(data) {
     if (data.type === 'columns') {
-
       if (data.component && data.component.length) {
         this.pdfconfig.content.push(this.getPdfLayoutColumns(data.component));
       }
@@ -273,7 +267,7 @@ export class AngularFormioPdfComponent implements OnInit {
           this.pdfconfig.content.push({
             text: data.label,
             style: 'header'
-          })
+          });
         }
         if (data.component && data.component.length) {
           let component = this.getPdfComponent(data.component, 'panel');
@@ -287,18 +281,18 @@ export class AngularFormioPdfComponent implements OnInit {
       const tabel = {
         style: 'table',
         table: {
-          widths: data.component[0].map(x => '*'),
+          widths: data.component[0].map((x) => '*'),
           body: data.component.map((k, ind) => {
-            let rows = k.map(c => {
+            let rows = k.map((c) => {
               let columns;
               if (ind === 0) {
-                columns = (c.length) ? this.getPdfComponent(c, 'table', true) : '';
+                columns = c.length ? this.getPdfComponent(c, 'table', true) : '';
               } else {
-                columns = (c.length) ? this.getPdfComponent(c, 'table') : '';
+                columns = c.length ? this.getPdfComponent(c, 'table') : '';
               }
-              columns = (typeof columns !== 'string') ? [].concat.apply([], columns) : '';
+              columns = typeof columns !== 'string' ? [].concat.apply([], columns) : '';
               return columns;
-            })
+            });
             return rows;
           })
         }
@@ -306,18 +300,19 @@ export class AngularFormioPdfComponent implements OnInit {
       this.pdfconfig.content.push(tabel);
     } else if (data.input) {
       this.pdfconfig.content.push(this.getPdfInput(data));
-    } else { }
+    } else {
+    }
   }
   getPdfLayoutColumns(v) {
-    let col = v.map(x => {
-      let component = (x.component) ? this.getPdfComponent(x.component, 'column') : '';
-      component = (typeof component !== 'string') ? [].concat.apply([], component) : '';
+    let col = v.map((x) => {
+      let component = x.component ? this.getPdfComponent(x.component, 'column') : '';
+      component = typeof component !== 'string' ? [].concat.apply([], component) : '';
       return component;
-    })
-    let updatedcol = col.map(v => {
+    });
+    let updatedcol = col.map((v) => {
       return {
-        text: (v === '') ? [] : v
-      }
+        text: v === '' ? [] : v
+      };
     });
     updatedcol = [].concat.apply([], updatedcol);
     return {
@@ -326,9 +321,9 @@ export class AngularFormioPdfComponent implements OnInit {
     };
   }
   getPdfComponent(data, type?, tablehead?) {
-    return data.map(k => {
+    return data.map((k) => {
       if (k.input) {
-        let arr = []
+        let arr = [];
         if (!k.hidelabel) {
           arr.push({
             text: `${k.label} \n`,
@@ -355,7 +350,7 @@ export class AngularFormioPdfComponent implements OnInit {
           this.pdfconfig.content.push(arr);
         }
       } else if (k.type === 'htmlelement') {
-        let arr = []
+        let arr = [];
         if (k.image && k.value !== '') {
           arr.push({
             image: k.value
@@ -385,10 +380,9 @@ export class AngularFormioPdfComponent implements OnInit {
         if (!k.input) {
           this.getSimplifiedPdfLayout(k);
         } else {
-
         }
       }
-    })
+    });
   }
   getPdfInput(v) {
     if (!v.hidelabel) {
@@ -405,7 +399,7 @@ export class AngularFormioPdfComponent implements OnInit {
       let arr = [];
       arr.push(this.getPdfComponent(v.component));
       arr = [].concat.apply([], arr);
-      this.pdfconfig.content.push(arr)
+      this.pdfconfig.content.push(arr);
     }
   }
 }

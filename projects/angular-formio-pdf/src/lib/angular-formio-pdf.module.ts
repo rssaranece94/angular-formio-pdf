@@ -6,4 +6,4 @@ import { AngularFormioPdfComponent } from './angular-formio-pdf/angular-formio-p
   imports: [],
   exports: [AngularFormioPdfComponent]
 })
-export class AngularFormioPdfModule { }
+export class AngularFormioPdfModule {}
