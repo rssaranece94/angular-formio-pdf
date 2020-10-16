@@ -241,7 +241,9 @@ export class AngularFormioPdfComponent implements OnInit {
         } else {
           return {
             type: k.type,
-            value: k.content.replace('<center>', '').replace('</center>', '').replace('<br>', ''),
+            value: k.content.replace('<center>', '').replace('</center>', '').replace('<input>', '').replace('</input>', '')
+                            .replace('<b>', '').replace('</b>', '').replace('<br>', '').replace('<p>', '').replace('</p>', '')
+                            .replace('<br>', ''),
             key: k.key,
             image: false,
             hidelabel: true,
