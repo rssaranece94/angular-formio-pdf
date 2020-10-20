@@ -230,7 +230,7 @@ export class AngularFormioPdfComponent implements OnInit {
         if (k.content.includes('<img src=')) {
           return {
             type: k.type,
-            value: k.content.replace('<img src="', '').replace('" alt="">', '').replace('<br>', ''),
+            value: k.content.replaceAll('<img src="', '').replaceAll('" alt="">', '').replaceAll('<br>', ''),
             key: k.key,
             hidelabel: true,
             image: true,
@@ -241,9 +241,9 @@ export class AngularFormioPdfComponent implements OnInit {
         } else {
           return {
             type: k.type,
-            value: k.content.replace('<center>', '').replace('</center>', '').replace('<input>', '').replace('</input>', '')
-                            .replace('<b>', '').replace('</b>', '').replace('<p>', '').replace('</p>', '')
-                            .replace('<br>', ''),
+            value: k.content.replaceAll('<center>', '').replaceAll('</center>', '').replaceAll('<input>', '').replaceAll('</input>', '')
+                            .replaceAll('<b>', '').replaceAll('</b>', '').replaceAll('<p>', '').replaceAll('</p>', '')
+                            .replaceAll('<br>', ''),
             key: k.key,
             image: false,
             hidelabel: true,
