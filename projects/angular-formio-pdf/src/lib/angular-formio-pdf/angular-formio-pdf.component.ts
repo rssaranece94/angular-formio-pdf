@@ -70,7 +70,7 @@ export class AngularFormioPdfComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.pdf = { ...this.pdfconfig, ...this.pdf };
+    this.pdfconfig = { ...this.pdfconfig, ...this.pdf };
     this.simplifiedDate = this.component.map((v) => {
       return this.getSimplifiedLayout(v);
     });
